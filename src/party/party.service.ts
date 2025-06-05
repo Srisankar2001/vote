@@ -15,7 +15,7 @@ export class PartyService {
         ) { }
     
         async getPartyById(id: number): Promise<Party | null> {
-            return this.partyRepo.findOneBy({ partyId: id });
+            return this.partyRepo.findOne({where:{ partyId: id }, relations:['members']});
         }
         
         async isPartyExists(name: string): Promise<boolean> {

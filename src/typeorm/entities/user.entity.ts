@@ -23,5 +23,5 @@ export class User {
     @Column({ default: false })
     isRegisted: boolean;
     @Column({ nullable: true })
-    registeredCode: string;
+    otp: string;
 }

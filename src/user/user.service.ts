@@ -28,8 +28,8 @@ export class UserService {
         return this.userRepo.existsBy({ userEmail: email })
     }
 
-    async isRegisteredCodeExists(code: string): Promise<boolean> {
-        return this.userRepo.existsBy({ registeredCode: code })
+    async isOTPExists(code: string): Promise<boolean> {
+        return this.userRepo.existsBy({ otp: code })
     }
 
     async generateCode(): Promise<string> {
@@ -40,7 +40,7 @@ export class UserService {
             code = Array.from({ length: 6 }, () =>
                 chars.charAt(Math.floor(Math.random() * chars.length))
             ).join('');
-        } while (await this.isRegisteredCodeExists(code));
+        } while (await this.isOTPExists(code));
 
         return code;
     }
@@ -69,7 +69,7 @@ export class UserService {
                 userNIC: createUserDto.nic,
                 userEmail: createUserDto.email,
                 district: district,
-                registeredCode: code
+                otp: code
             });
 
             await this.userRepo.save(newUser);

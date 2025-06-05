@@ -7,7 +7,7 @@ export class Member{
     memberId:number;
     @Column()
     memberName:string;
-    @Column()
+    @Column({default:null})
     memberImage:string;
     @ManyToOne(()=>Party,party=>party.members)
     party:Party;

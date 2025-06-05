@@ -5,8 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Party } from 'src/typeorm/entities/party.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Party])],
+  imports: [TypeOrmModule.forFeature([Party])],
   controllers: [PartyController],
-  providers: [PartyService]
+  providers: [PartyService],
+  exports: [PartyService]
 })
-export class PartyModule {}
+export class PartyModule { }
