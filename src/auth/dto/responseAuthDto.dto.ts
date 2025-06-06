@@ -1,7 +1,7 @@
 export class ResponseAuthDto {
     token: string;
-    expireAt: Date;
-    constructor(token: string, expireAt: Date) {
+    expireAt: string;
+    constructor(token: string, expireAt: string) {
         this.token = token;
         this.expireAt = expireAt;
     }

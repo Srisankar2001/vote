@@ -4,7 +4,7 @@ import { PartyService } from 'src/party/party.service';
 import { Member } from 'src/typeorm/entities/member.entity';
 import { Repository } from 'typeorm';
 import { CreateMemberDto } from './dto/createMember.dto';
-import { ResponseDto } from 'src/commonDto/response.dto';
+import { ResponseDto } from 'src/common/dto/response.dto';
 import { ResponseMemberDto } from './dto/responseMemberDto.dto';
 import { UpdateMemberDto } from './dto/updateMember.dto';
 
@@ -20,7 +20,7 @@ export class MemberService {
         return this.memberRepo.findOne({ where: { memberId: id }, relations: ['party'] });
     }
 
-    async create(createMemberDto: CreateMemberDto): Promise<ResponseDto<any>> {
+    async create(createMemberDto: CreateMemberDto, image: string): Promise<ResponseDto<any>> {
         try {
             const party = await this.partyService.getPartyById(createMemberDto.partyId);
             if (!party) {
@@ -31,7 +31,7 @@ export class MemberService {
                 return new ResponseDto(400, 'One Party have only 5 members', null);
             }
 
-            const newMember = this.memberRepo.create({ memberName: createMemberDto.name, party: party });
+            const newMember = this.memberRepo.create({ memberName: createMemberDto.name, memberImage: image, party: party });
             await this.memberRepo.save(newMember);
 
             return new ResponseDto(201, 'Member Created Successfully', null);

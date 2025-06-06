@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile } from '@nestjs/common';
+import { Express } from 'express';
 import { MemberService } from './member.service';
-import { ResponseDto } from 'src/commonDto/response.dto';
+import { ResponseDto } from 'src/common/dto/response.dto';
 import { CreateMemberDto } from './dto/createMember.dto';
 import { UpdateMemberDto } from './dto/updateMember.dto';
+import { UploadImageInterceptor } from 'src/common/interceptor/imageupload.interceptor';
 
 @Controller('member')
 export class MemberController {
@@ -19,8 +21,13 @@ export class MemberController {
             }
         
             @Post("/")
-            async create(@Body() createMemberDto: CreateMemberDto): Promise<ResponseDto<any>> {
-                return this.memberService.create(createMemberDto);
+            @UploadImageInterceptor()
+            async create(
+                @UploadedFile() file: Express.Multer.File,
+                @Body() createMemberDto: CreateMemberDto
+            ): Promise<ResponseDto<any>> {
+                const image = file.filename;
+                return this.memberService.create(createMemberDto,image);
             }
         
             @Put("/:id")

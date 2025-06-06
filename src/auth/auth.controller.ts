@@ -1,9 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SigninDto } from './dto/signin.dto';
-import { ResponseDto } from 'src/commonDto/response.dto';
+import { ResponseDto } from 'src/common/dto/response.dto';
 import { RegisterDto } from './dto/register.dto';
-import { ConfirmDto } from './dto/confirm.dto';
+import { Response } from 'express';
+import { SetPasswordDto } from './dto/setPassword.dto';
+import { AdminSigninDto } from './dto/adminSignin.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,13 +16,23 @@ export class AuthController {
         return this.authService.signin(signinDto);
     }
 
+    @Post("/admin/signin")
+    async adminSignin(@Body() adminSigninDto: AdminSigninDto): Promise<ResponseDto<any>> {
+        return this.authService.adminSignin(adminSigninDto);
+    }
+
     @Post("/register")
     async register(@Body() registerDto: RegisterDto): Promise<ResponseDto<any>> {
         return this.authService.register(registerDto);
     }
 
-    @Post("/confirm")
-    async confirm(@Body() confirmDto:ConfirmDto): Promise<ResponseDto<any>> {
-        return this.authService.confirm(confirmDto);
+    @Post("/set_password")
+    async setPassword(@Body() setPasswordDto: SetPasswordDto): Promise<ResponseDto<any>> {
+        return this.authService.setPassword(setPasswordDto);
+    }
+
+    @Get("/confirm/")
+    async confirm(@Res() res:Response, @Query('nic') nic : string, @Query('otp') otp : string){
+        return this.authService.confirm(res,nic,otp);
     }
 }

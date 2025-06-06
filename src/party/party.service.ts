@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Party } from 'src/typeorm/entities/party.entity';
 import { Repository } from 'typeorm';
 import { CreatePartyDto } from './dto/createParty.dto';
-import { ResponseDto } from 'src/commonDto/response.dto';
+import { ResponseDto } from 'src/common/dto/response.dto';
 import { ResponsePartyDto } from './dto/responsePartyDto.dto';
 import { UpdatePartyDto } from './dto/updateParty.dto';
 
@@ -22,14 +22,14 @@ export class PartyService {
             return this.partyRepo.existsBy({ partyName: name });
         }
     
-        async create(createPartyDto: CreatePartyDto): Promise<ResponseDto<any>> {
+        async create(createPartyDto: CreatePartyDto,image: string): Promise<ResponseDto<any>> {
             try {
                 const existing = await this.isPartyExists(createPartyDto.name);
                 if (existing) {
                     return new ResponseDto(400, 'Party Name Already Exists', null);
                 }
     
-                const newParty = this.partyRepo.create({ partyName: createPartyDto.name });
+                const newParty = this.partyRepo.create({ partyName: createPartyDto.name, partyImage: image });
                 await this.partyRepo.save(newParty);
     
                 return new ResponseDto(201, 'Party Created Successfully', null);

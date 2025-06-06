@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { District } from 'src/typeorm/entities/district.entity';
 import { CreateDistrictDto } from './dto/createDistrict.dto';
 import { UpdateDistrictDto } from './dto/updateDistrict.dto';
-import { ResponseDto } from '../commonDto/response.dto';
+import { ResponseDto } from '../common/dto/response.dto';
 import { ResponseDistrictDto } from './dto/responseDistrictDto.dto';
 
 @Injectable()

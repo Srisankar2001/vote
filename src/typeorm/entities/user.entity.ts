@@ -10,7 +10,7 @@ export class User {
     userName: string;
     @Column({ unique: true })
     userNIC: string;
-    @Column({default:null})
+    @Column({ default: null })
     userPassword: string;
     @Column({ unique: false })
     userEmail: string;
@@ -19,9 +19,9 @@ export class User {
     @ManyToOne(() => District, district => district.users)
     district: District;
     @Column({ default: false })
-    vote: boolean;
+    isVoted: boolean;
     @Column({ default: false })
-    isRegisted: boolean;
-    @Column({ nullable: true })
+    isVerified: boolean;
+    @Column({ default: null, nullable: true })
     otp: string;
 }
