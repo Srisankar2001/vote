@@ -7,6 +7,7 @@ import { CreateMemberDto } from './dto/createMember.dto';
 import { ResponseDto } from 'src/common/dto/response.dto';
 import { ResponseMemberDto } from './dto/responseMemberDto.dto';
 import { UpdateMemberDto } from './dto/updateMember.dto';
+import { Party } from 'src/typeorm/entities/party.entity';
 
 @Injectable()
 export class MemberService {
@@ -18,6 +19,10 @@ export class MemberService {
 
     async getMemberById(id: number): Promise<Member | null> {
         return this.memberRepo.findOne({ where: { memberId: id }, relations: ['party'] });
+    }
+
+    async getMemberByIdAndParty(id: number, party: Party): Promise<Member | null> {
+        return this.memberRepo.findOne({ where: { memberId: id, party: party } });
     }
 
     async create(createMemberDto: CreateMemberDto, image: string): Promise<ResponseDto<any>> {

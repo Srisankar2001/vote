@@ -14,6 +14,7 @@ import { Vote } from './typeorm/entities/vote.entity';
 import { MailModule } from './mail/mail.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { AdminModule } from './admin/admin.module';
+import { VoteModule } from './vote/vote.module';
 config()
 
 @Module({
@@ -38,7 +39,7 @@ config()
         },
       },
     })
-    , AuthModule, UserModule, DistrictModule, PartyModule, MemberModule, MailModule, AdminModule],
+    , AuthModule, UserModule, DistrictModule, PartyModule, MemberModule, MailModule, AdminModule, VoteModule],
   controllers: [],
   providers: [],
 })

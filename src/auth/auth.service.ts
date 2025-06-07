@@ -7,7 +7,7 @@ import { User } from 'src/typeorm/entities/user.entity';
 import { Repository } from 'typeorm';
 import { ResponseDto } from '../common/dto/response.dto';
 import { ResponseAuthDto } from './dto/responseAuthDto.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { MailService } from 'src/mail/mail.service';
 import { RegisterDto } from './dto/register.dto';
 import { SetPasswordDto } from './dto/setPassword.dto';
@@ -20,6 +20,10 @@ export class AuthService {
         private readonly userRepo: Repository<User>,
         private readonly mailService: MailService
     ) { }
+
+    async getUserById(id: number): Promise<User | null> {
+        return this.userRepo.findOne({ where: { userId: id } });
+    }
 
     async getUserByNIC(nic: string): Promise<User | null> {
         return this.userRepo.findOne({ where: { userNIC: nic } });
@@ -60,7 +64,7 @@ export class AuthService {
                 return new ResponseDto(400, 'Your Account is Not Verified Yet', null);
             }
 
-            if (!user.isVoted) {
+            if (user.isVoted) {
                 return new ResponseDto(400, 'You Already Voted', null);
             }
 
@@ -171,9 +175,9 @@ export class AuthService {
         }
     }
 
-    async setPassword(setPasswordDto: SetPasswordDto): Promise<ResponseDto<any>> {
+    async setPassword(req: Request, setPasswordDto: SetPasswordDto): Promise<ResponseDto<any>> {
         try {
-            const user = await this.getUserByNIC(setPasswordDto.nic);
+            const user = await this.getUserById(Number(req.id));
             if (!user) {
                 return new ResponseDto(400, 'Your NIC is Not Registerd', null);
             }

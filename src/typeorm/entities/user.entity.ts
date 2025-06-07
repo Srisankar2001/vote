@@ -8,7 +8,7 @@ export class User {
     userId: number;
     @Column()
     userName: string;
-    @Column({ unique: true })
+    @Column({ unique: true, nullable: true })
     userNIC: string;
     @Column({ default: null })
     userPassword: string;

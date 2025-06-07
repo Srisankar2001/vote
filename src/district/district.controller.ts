@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { DistrictService } from './district.service';
 import { ResponseDto } from 'src/common/dto/response.dto';
 import { CreateDistrictDto } from './dto/createDistrict.dto';
 import { UpdateDistrictDto } from './dto/updateDistrict.dto';
+import { AdminGuard } from 'src/common/guard/admin.guard';
 
 @Controller('district')
+@UseGuards(AdminGuard)
 export class DistrictController {
     constructor(private readonly districtService: DistrictService) { }
 

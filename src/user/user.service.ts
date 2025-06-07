@@ -20,6 +20,10 @@ export class UserService {
         return this.userRepo.findOne({ where: { userId: id }, relations: ['district'] });
     }
 
+    async saveUser(user:User):Promise<User>{
+        return this.userRepo.save(user);
+    }
+
     async isNICExists(nic: string): Promise<boolean> {
         return this.userRepo.existsBy({ userNIC: nic });
     }

@@ -18,10 +18,6 @@ export class DistrictService {
         return this.districtRepo.findOneBy({ districtId: id });
     }
 
-    // async getDistrictByName(name: string): Promise<District | null> {
-    //     return this.districtRepo.findOneBy({ districtName: name });
-    // }
-
     async isDistrictExistsName(name: string): Promise<boolean> {
         return this.districtRepo.existsBy({ districtName: name });
     }

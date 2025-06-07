@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SigninDto } from './dto/signin.dto';
 import { ResponseDto } from 'src/common/dto/response.dto';
 import { RegisterDto } from './dto/register.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { SetPasswordDto } from './dto/setPassword.dto';
 import { AdminSigninDto } from './dto/adminSignin.dto';
+import { TempUserGuard } from 'src/common/guard/tempUser.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -27,12 +28,13 @@ export class AuthController {
     }
 
     @Post("/set_password")
-    async setPassword(@Body() setPasswordDto: SetPasswordDto): Promise<ResponseDto<any>> {
-        return this.authService.setPassword(setPasswordDto);
+    @UseGuards(TempUserGuard)
+    async setPassword(@Req() req: Request, @Body() setPasswordDto: SetPasswordDto): Promise<ResponseDto<any>> {
+        return this.authService.setPassword(req, setPasswordDto);
     }
 
     @Get("/confirm/")
-    async confirm(@Res() res:Response, @Query('nic') nic : string, @Query('otp') otp : string){
-        return this.authService.confirm(res,nic,otp);
+    async confirm(@Res() res: Response, @Query('nic') nic: string, @Query('otp') otp: string) {
+        return this.authService.confirm(res, nic, otp);
     }
 }

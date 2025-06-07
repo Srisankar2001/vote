@@ -1,12 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseGuards } from '@nestjs/common';
 import { Express } from 'express';
 import { MemberService } from './member.service';
 import { ResponseDto } from 'src/common/dto/response.dto';
 import { CreateMemberDto } from './dto/createMember.dto';
 import { UpdateMemberDto } from './dto/updateMember.dto';
 import { UploadImageInterceptor } from 'src/common/interceptor/imageupload.interceptor';
+import { AdminGuard } from 'src/common/guard/admin.guard';
 
 @Controller('member')
+@UseGuards(AdminGuard)
 export class MemberController {
      constructor(private readonly memberService : MemberService) { }
         

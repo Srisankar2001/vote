@@ -1,12 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseGuards} from '@nestjs/common';
 import { Express } from 'express';
 import { PartyService } from './party.service';
 import { ResponseDto } from 'src/common/dto/response.dto';
 import { CreatePartyDto } from './dto/createParty.dto';
 import { UpdatePartyDto } from './dto/updateParty.dto';
 import { UploadImageInterceptor } from 'src/common/interceptor/imageupload.interceptor';
+import { AdminGuard } from 'src/common/guard/admin.guard';
 
 @Controller('party')
+@UseGuards(AdminGuard)
 export class PartyController {
     constructor(private readonly partyService: PartyService) { }
 

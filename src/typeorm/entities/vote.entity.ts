@@ -1,4 +1,4 @@
-import { Entity, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { District } from "./district.entity";
 import { Party } from "./party.entity";
 import { Member } from "./member.entity";
@@ -9,6 +9,7 @@ export class Vote{
     @PrimaryGeneratedColumn()
     voteId:number;
     @OneToOne(()=>User,{eager:false})
+    @JoinColumn()
     user:User;
     @ManyToOne(()=>District,{eager:true})
     district:District;
