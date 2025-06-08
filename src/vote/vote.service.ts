@@ -76,13 +76,13 @@ export class VoteService {
             const topParties = await this.voteRepo
                 .createQueryBuilder('vote')
                 .select([
-                    'vote.partyId AS partyId',
+                    'party.partyId AS partyId',
                     'party.partyName AS partyName',
                     'party.partyImage AS partyImage',
                     'COUNT(vote.voteId) AS voteCount'
                 ])
                 .leftJoin('vote.party', 'party')
-                .groupBy('vote.partyId')
+                .groupBy('party.partyId')
                 .orderBy('voteCount', 'DESC')
                 .getRawMany();
 
@@ -108,11 +108,11 @@ export class VoteService {
                 .leftJoin('vote.members', 'member')
                 .leftJoin('member.party', 'party')
                 .groupBy('member.memberId')
-                .addGroupBy('member.memberName')
-                .addGroupBy('member.memberImage')
-                .addGroupBy('party.partyId')
-                .addGroupBy('party.partyName')
-                .addGroupBy('party.partyImage')
+                // .addGroupBy('member.memberName')
+                // .addGroupBy('member.memberImage')
+                // .addGroupBy('party.partyId')
+                // .addGroupBy('party.partyName')
+                // .addGroupBy('party.partyImage')
                 .orderBy('voteCount', 'DESC')
                 .getRawMany();
 
@@ -182,11 +182,11 @@ export class VoteService {
                 .leftJoin('vote.district', 'district')
                 .where('district.districtId = :id', { id })
                 .groupBy('member.memberId')
-                .addGroupBy('member.memberName')
-                .addGroupBy('member.memberImage')
-                .addGroupBy('party.partyId')
-                .addGroupBy('party.partyName')
-                .addGroupBy('party.partyImage')
+                // .addGroupBy('member.memberName')
+                // .addGroupBy('member.memberImage')
+                // .addGroupBy('party.partyId')
+                // .addGroupBy('party.partyName')
+                // .addGroupBy('party.partyImage')
                 .orderBy('voteCount', 'DESC')
                 .getRawMany();
 
